@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>UAS Praktikum Pemrograman Platform</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="contact-form">
+            <table>
+                <tr><h2>Nama Pasien yang Dicari</h2> 
+                <td><input type="text" id="nama"/> 
+                    <button type="button" onclick="loadDoc()" id="btn">Cari Data</button>
+                    </td></tr>
+
+            </table>
+            <table width="400px">
+                <pre id="coba">
+                </pre>
+                <script>
+                    function loadDoc() {
+                        var xmlhttp = new XMLHttpRequest();
+                        var url = "http://206.189.38.188:8080/myrs/webresources/pasien/cariNamaPasien?nama=" + nama.value;
+                        xmlhttp.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
+//                                    alert(this.responseText);
+                                myFunction(this.responseText);
+                            }
+                        }
+                        xmlhttp.open("GET", url, true);
+                        xmlhttp.send();
+                        function myFunction(response) {
+                            var arr = JSON.parse(response);
+                            var i;
+                            var out = "<table border='1'> <tr><td>NIK</td><td>Nama</td><td>Tanggal Lahir</td><td>Detil</td></tr>";
+                            for (i = 0; i < arr.length; i++) {
+                                out += "<tr><td>" +
+                                        arr[i].nik +
+                                        "</td><td>" +
+                                        arr[i].nama +
+                                        "</td><td>" + arr[i].tanggalLahir +
+                                        "</td><td><button type=\"submit\" onclick=\"myFunction1('" + arr[i].nik + "')\">Detail Pasien</button></td></tr>";
+                            }
+                            out += "</table>";
+                            document.getElementById("coba").innerHTML = out;
+                        }
+                    }
+                    function myFunction1(nik) {
+                        var myWindow = window.open("detilPasien.html");
+                        setCookie("username", nik, 1);
+                    }
+                    function setCookie(cname, cvalue, exdays) {
+                        var d = new Date();
+                        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                        var expires = "expires=" + d.toUTCString();
+                        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                    }
+                </script>
+            </table>
+                </body>
+                </html>
