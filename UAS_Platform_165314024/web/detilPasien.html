@@ -11,10 +11,78 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>Detail Data Pasien</div>
-        
+        <h2>Detail Data Pasien</h2>
+        <div class="w3-half">
+
+            <table>
+                <tr>
+                    <td><label>NoRm</label></td>
+                    <td> <input type="text" placeholder=" " id="noRm" size="40" disabled></td>
+                </tr>
+                <tr>
+                    <td><label>Nama</label></td>
+                    <td> <input type="text" placeholder=" " id="nama" size="40" disabled></td>
+                </tr><br>
+                <tr>
+                    <td><label>Alamat</label></td>
+                    <td> <input type="text" placeholder=" " id="alamat" size="40" disabled></td>
+                </tr>
+                <tr>
+                    <td><label>NIK</label></td>
+                    <td> <input type="text" placeholder=" " id="nik" size="40" disabled></td>
+                </tr>
+                <tr>
+                    <td><label>Tanggal Lahir</label></td>
+                    <td><input type="text" placeholder=" " id="tanggalLahir" size="40" disabled></td>
+                </tr>
+                <tr>
+                    <td><label>Kelamin</label></td>
+                    <td><input type="text" placeholder=" " id="kelamin" size="40" disabled></td>
+                </tr>
+
+            </table>
+        </div>
         <script>
-            
-        </script>
-    </body>
+<script>
+function loadDoc() {
+            var url = "http://206.189.38.188:8080/myrs/webresources/pasien/cariPasien?nik=" + getCookie("username");
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", url, true);
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+            var objj = JSON.parse(this.responseText);
+            document.getElementById("nrm").value = objj.noRm;
+            document.getElementById("nama").value = objj.nama;
+            document.getElementById("nik").value = objj.nik;
+            document.getElementById("alamat").value = objj.alamat;
+            document.getElementById("tanggalLahir").value = objj.tanggalLahir;
+            document.getElementById("kelamin").value = objj.kelamin;
+                }
+                };
+                }
+                    function getCookie(cname) {
+                    var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                    }
+                    }
+                return "";
+                }
+                    function checkCookie() {
+                    var username = getCookie("username");
+            if (username != "") {
+            document.getElementById("jadwal").value = username;
+        }
+        }
+</script>
+    </script>
+</body>
 </html>
